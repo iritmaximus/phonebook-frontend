@@ -13,7 +13,7 @@ const App = () => {
     personService
       .getAll()
         .then(initialPersons => setPersons(initialPersons))
-  }, [])
+  }, []);
   
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
@@ -51,8 +51,12 @@ const App = () => {
 
     } else {
       personService
-        .add(newPerson, newPerson.id)
-      setPersons(persons.concat(newPerson))
+        .add(newPerson)
+        .then(response => {
+          setPersons(persons.concat(response))
+        });
+      
+      // setPersons(persons.concat(newPerson))
 
       setMessage(`${newName} added to the phonebook`)
       setIsError(false)
