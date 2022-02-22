@@ -54,16 +54,32 @@ const App = () => {
         .add(newPerson)
         .then(response => {
           setPersons(persons.concat(response))
-        });
+        })
+        .catch(error => {
+          console.log("Error")
+          console.log("Error message:", error.response.data)
+          setMessage(error.response.data["error"])
+          setIsError(true)
+
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+            return
+        })
+
+      if (!isError) {
+        setMessage(`${newName} added to the phonebook`)
+        
+        setTimeout(() => {
+          setMessage(null)
+          setIsError(false)
+        }, 5000)
+      } else {
+        console.log("Error state is still on")
+        return
+      }
+
       
-      // setPersons(persons.concat(newPerson))
-
-      setMessage(`${newName} added to the phonebook`)
-      setIsError(false)
-
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
 
       console.log('Persons', persons)
     }
